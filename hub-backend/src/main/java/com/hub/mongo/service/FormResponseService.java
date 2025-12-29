@@ -1,5 +1,9 @@
 package com.hub.mongo.service;
 
+import java.util.List;
+
+import org.bson.types.ObjectId;
+
 import com.hub.mongo.dto.FormResponseDto;
 import com.hub.mongo.mapper.FormResponseMapper;
 import com.hub.mongo.repository.FormResponseRepository;
@@ -14,17 +18,16 @@ import lombok.RequiredArgsConstructor;
 public class FormResponseService {
 
     final FormResponseRepository repository;
+    final FormService formService;
     final FormResponseMapper mapper;
 
     @Transactional
     public void persist(FormResponseDto formResponseDto) {
+        formService.find(formResponseDto.getFormId()).orElseThrow(() -> new NotFoundException());
         repository.persist(mapper.toEntity(formResponseDto));
     }
 
-    public FormResponseDto find(String user) {
-        return repository.find("user = ?1 ", user)
-                .project(FormResponseDto.class)
-                .firstResultOptional()
-                .orElseThrow(() -> new NotFoundException("User not found"));
+    public List<FormResponseDto> findUserResponses(String user, ObjectId formId) {
+        return repository.findUserResponses(user, formId);
     }
 }

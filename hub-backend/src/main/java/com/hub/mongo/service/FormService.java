@@ -1,11 +1,15 @@
 package com.hub.mongo.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.bson.types.ObjectId;
+
 import com.hub.mongo.dto.FormDto;
 import com.hub.mongo.mapper.FormMapper;
 import com.hub.mongo.repository.FormRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @ApplicationScoped
@@ -19,11 +23,12 @@ public class FormService {
         repository.persist(mapper.toEntity(dto));
     }
 
-    public FormDto find(String user) {
-        return repository.find("user = ?1", user)
-                .project(FormDto.class)
-                .firstResultOptional()
-                .orElseThrow(() -> new NotFoundException());
+    public List<FormDto> findUsersForms(String user) {
+        return repository.findUsersForms(user);
+    }
+
+    public Optional<FormDto> find(ObjectId id) {
+        return repository.findByIdOptionalDto(id);
     }
 
 }

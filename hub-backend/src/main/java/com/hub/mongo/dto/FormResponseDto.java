@@ -10,14 +10,24 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hub.mongo.model.FormResponse;
 
 import io.quarkus.mongodb.panache.common.ProjectionFor;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @ProjectionFor(FormResponse.class)
 public class FormResponseDto {
+
+    @NotNull
     private ObjectId formId;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     private String user;
+
     @JsonProperty(access = Access.READ_ONLY)
     private Instant submittedAt;
+
+    @Size(min = 1)
     private Map<String, Object> answers;
 }

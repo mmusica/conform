@@ -35,7 +35,7 @@ public class FormEndpoint {
     @Path("/{user}")
     public Response createForm(@PathParam("user") String user) {
         return Response.ok()
-                .entity(service.find(user))
+                .entity(service.findUsersForms(user))
                 .build();
     }
 }
