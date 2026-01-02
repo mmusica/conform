@@ -1,5 +1,7 @@
 package com.hub.mongo.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import lombok.Data;
@@ -7,7 +9,8 @@ import lombok.Data;
 @Data
 public class FormComponent {
     public enum HtmlElement {
-        TEXTAREA("textarea");
+        TEXTAREA("textarea"),
+        SELECT("select");
 
         private String name;
 
@@ -33,4 +36,5 @@ public class FormComponent {
     private String name;
     private HtmlElement type;
     private String label;
+    private List<String> values;
 }

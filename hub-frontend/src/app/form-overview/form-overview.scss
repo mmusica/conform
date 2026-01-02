@@ -1,0 +1,11 @@
+/* The container that holds all cards */
+.form-container {
+  display: flex;
+  flex-direction: column; /* Stacks items vertically */
+  gap: 20px; /* Creates equal space between cards */
+  max-width: 600px; /* Limits width so it doesn't stretch too far */
+}
+
+.form-card {
+  padding: 10px;
+}

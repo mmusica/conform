@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormService } from '../services/form-service';
-import { inject, signal } from '@angular/core';
+import { FormDto } from '../models/model';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-renderer',
@@ -9,12 +9,11 @@ import { inject, signal } from '@angular/core';
   templateUrl: './form-renderer.html',
   styleUrl: './form-renderer.scss',
 })
-export class FormRenderer {
+export class FormRenderer implements OnInit {
+  form: FormDto = inject(MAT_DIALOG_DATA);
+  formSignal = signal(this.form);
 
-  protected title = signal('hub-frontend');
-  private formService: FormService = inject(FormService);
+  ngOnInit(): void {}
 
-  public name() {
-    this.formService.getForms("string").subscribe(it => this.title.set(it.at(0)?.user || "empty"));
-  }
+  createForm() {}
 }

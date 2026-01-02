@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @MongoEntity(collection = "Form")
 public class Form extends PanacheMongoEntity {
+    private String name;
     private String user;
     private Instant createdAt;
     private List<FormComponent> components;

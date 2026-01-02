@@ -16,6 +16,7 @@ public class FormMapper {
         }
 
         Form result = new Form();
+        result.setName(dto.getName());
         result.setUser(dto.getUser());
         result.setComponents(dto.getComponents());
         result.setCreatedAt(Instant.now());

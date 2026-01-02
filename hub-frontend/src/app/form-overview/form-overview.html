@@ -1,0 +1,30 @@
+<h1>Hello {{ forms().at(0)?.user }}</h1>
+<div class="form-container">
+  @for (form of forms(); track form.id) {
+    <mat-card appearance="raised" class="form-card">
+      <mat-card-title>{{ form.name }}</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Name: {{ form.name }}</li>
+          <li>CreatedAt: {{ form.createdAt }}</li>
+          <li>Components:</li>
+          @for (component of form.components; track component.name) {
+            <ol>
+              <li>{{ component.name }}</li>
+              <li>{{ component.label }}</li>
+              <li>{{ component.name }}</li>
+              <li>{{ component.type }}</li>
+            </ol>
+          }
+        </ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button matButton (click)="openDialog(form)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button matButton><mat-icon>edit</mat-icon></button>
+        <button matButton><mat-icon>delete</mat-icon></button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>
