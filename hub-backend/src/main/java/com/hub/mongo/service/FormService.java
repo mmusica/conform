@@ -25,7 +25,8 @@ public class FormService {
     }
 
     public List<FormDto> findUsersForms(String user) {
-        return repository.findUsersForms(user);
+        List<FormDto> usersForms = repository.findUsersForms(user);
+        return usersForms;
     }
 
     public Optional<FormDto> find(ObjectId id) {
@@ -35,5 +36,4 @@ public class FormService {
     public FormDto findById(String id) {
         return find(new ObjectId(id)).orElseThrow(() -> new NotFoundException("Form with id %s does not exist"));
     }
-
 }

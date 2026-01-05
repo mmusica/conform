@@ -54,17 +54,12 @@ export class FormRenderer {
       this.form.set(this.dialogData);
       this.setupForm(this.form());
     } else {
-      this.initializeFormFromRoute();
+      this.setupForm(this.routerData()?.['form']);
     }
   }
 
   onSubmit() {
     console.log(this.formPreview.value);
-  }
-
-  private initializeFormFromRoute() {
-    console.log('Started initialization');
-    this.setupForm(this.routerData()?.['form']);
   }
 
   private setupForm(form: FormDto): void {

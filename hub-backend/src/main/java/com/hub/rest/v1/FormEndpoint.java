@@ -10,6 +10,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -32,8 +33,7 @@ public class FormEndpoint {
     }
 
     @GET
-    @Path("/{user}")
-    public Response getFormByUser(@PathParam("user") String user) {
+    public Response getFormByUser(@QueryParam("user") String user) {
         return Response.ok()
                 .entity(service.findUsersForms(user))
                 .build();

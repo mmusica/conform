@@ -11,8 +11,10 @@ export class FormDataService {
   private http: HttpClient = inject(HttpClient);
   private apiUrl: string = environment.hubBackendApiUrl;
 
-  public getForms(user: string): Observable<Array<FormDto>> {
-    return this.http.get<Array<FormDto>>(`${this.apiUrl}/v1/forms/${user}`);
+  public getFormsByUsername(user: string): Observable<Array<FormDto>> {
+    return this.http.get<Array<FormDto>>(`${this.apiUrl}/v1/forms`, {
+      params: { user: user },
+    });
   }
 
   public getFormById(id: string): Observable<FormDto> {

@@ -1,3 +1,4 @@
 export const environment = {
-  hubBackendApiUrl: 'realUrlToBeAddedForProduction'
+  hubBackendApiUrl: 'realUrlToBeAddedForProduction',
+  selfUrl: 'realSelfUrl',
 };
