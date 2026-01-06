@@ -22,7 +22,7 @@ public class FormRepository implements PanacheMongoRepository<Form> {
     }
 
     public Optional<FormDto> findByIdOptionalDto(ObjectId id) {
-        return find("id = :id", Parameters.with("id", id))
+        return find("_id = :id", Parameters.with("id", id))
                 .project(FormDto.class)
                 .firstResultOptional();
     }

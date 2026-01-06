@@ -1,0 +1,17 @@
+form {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  width: 80vw; /* 80% of the viewport width */
+  margin: 0 auto; /* Center the form */
+  padding: 20px;
+  box-sizing: border-box;
+  mat-form-field {
+    width: 100%; /* Make inputs stretch to the full 80vw */
+    margin-bottom: 16px;
+  }
+
+  button {
+    width: 20vw;
+  }
+}

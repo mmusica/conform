@@ -6,7 +6,7 @@
       <mat-card-content>
         <ul>
           <li>Name: {{ form.name }}</li>
-          <li>CreatedAt: {{ form.createdAt }}</li>
+          <li>CreatedAt: {{ form.modifiedAt }}</li>
           <li>Components:</li>
           @for (component of form.components; track component.name) {
             <ol>
@@ -18,11 +18,25 @@
           }
         </ul>
       </mat-card-content>
-      <mat-card-actions>
-        <button matButton (click)="openDialog(form)">
+      <mat-card-actions align="end">
+        <button
+          matButton
+          (click)="openFormDialog(form)"
+          matTooltip="Preview form"
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button matButton>
           <mat-icon>edit</mat-icon>
         </button>
         <button matButton><mat-icon>delete</mat-icon></button>
+        <button
+          matTooltip="Copy URL to clipboard"
+          matButton
+          (click)="generateFormUrl(form.id)"
+        >
+          <mat-icon>link</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   }
