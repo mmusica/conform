@@ -19,7 +19,7 @@ public class FormService {
     final FormMapper mapper;
     final FormRepository repository;
 
-    public void persist(FormDto dto) {
+    public void save(FormDto dto) {
         repository.persist(mapper.toEntity(dto));
     }
 

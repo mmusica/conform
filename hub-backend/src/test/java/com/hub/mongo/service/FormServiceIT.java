@@ -27,7 +27,7 @@ class FormServiceIT {
     public void persistAndFind_validItem_shouldPersist() {
 
         var form = FormCreator.createValidForm();
-        formService.persist(form);
+        formService.save(form);
         List<FormDto> usersForms = formService.findUsersForms(form.getUser());
 
         assertThat(usersForms).isNotEmpty();

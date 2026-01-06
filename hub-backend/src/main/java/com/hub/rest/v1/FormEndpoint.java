@@ -26,7 +26,7 @@ public class FormEndpoint {
 
     @POST
     public Response createForm(FormDto dto) {
-        service.persist(dto);
+        service.save(dto);
         return Response.status(Status.CREATED.getStatusCode())
                 .build();
     }
