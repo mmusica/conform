@@ -13,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import lombok.RequiredArgsConstructor;
 
 @Path("/v1/form-response")
@@ -27,7 +28,7 @@ public class FormResponseEndpoint {
     @POST
     public Response createFormResponse(@Valid FormResponseDto formResponseDto) {
         service.save(formResponseDto);
-        return Response.ok().build();
+        return Response.status(Status.CREATED.getStatusCode()).build();
     }
 
     @GET

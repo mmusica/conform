@@ -25,7 +25,6 @@ public class FormDto {
     @JsonProperty(access = Access.READ_ONLY)
     private ObjectId id;
 
-    @NotNull
     @NotBlank
     private String name;
 
@@ -37,5 +36,6 @@ public class FormDto {
     private Instant modifiedAt;
 
     @Size(min = 1)
+    @NotNull
     private List<FormComponent> components;
 }

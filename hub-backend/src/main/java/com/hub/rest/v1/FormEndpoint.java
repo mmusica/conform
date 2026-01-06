@@ -4,6 +4,7 @@ import com.hub.mongo.dto.FormDto;
 import com.hub.mongo.service.FormService;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -25,7 +26,7 @@ public class FormEndpoint {
     final FormService service;
 
     @POST
-    public Response createForm(FormDto dto) {
+    public Response createForm(@Valid FormDto dto) {
         service.save(dto);
         return Response.status(Status.CREATED.getStatusCode())
                 .build();
