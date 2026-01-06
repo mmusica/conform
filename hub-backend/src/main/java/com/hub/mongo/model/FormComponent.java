@@ -16,7 +16,7 @@ public class FormComponent {
 
         private String name;
 
-        private HtmlElement(String name) {
+        HtmlElement(String name) {
             this.name = name;
         }
 
