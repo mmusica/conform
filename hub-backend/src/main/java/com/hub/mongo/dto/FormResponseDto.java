@@ -29,5 +29,6 @@ public class FormResponseDto {
     private Instant submittedAt;
 
     @Size(min = 1)
+    @NotNull
     private Map<String, Object> answers;
 }

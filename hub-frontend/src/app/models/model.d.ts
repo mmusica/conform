@@ -1,12 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-01-05 10:48:12.
+// Generated using typescript-generator version 3.2.1263 on 2026-01-06 14:23:47.
 
 export interface FormDto {
     id: ObjectId;
     name: string;
     user: string;
-    createdAt: Date;
+    modifiedAt: Date;
     components: FormComponent[];
 }
 

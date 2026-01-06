@@ -3,12 +3,13 @@ package com.hub.mongo.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.hub.common.EnumIdentifiable;
 
 import lombok.Data;
 
 @Data
 public class FormComponent {
-    public enum HtmlElement {
+    public enum HtmlElement implements EnumIdentifiable<String> {
         TEXTAREA("textarea"),
         SELECT("select"),
         RADIO("radio");
@@ -20,17 +21,9 @@ public class FormComponent {
         }
 
         @JsonValue
+        @Override
         public String getName() {
             return name;
-        }
-
-        public HtmlElement fromName(String name) {
-            for (HtmlElement value : HtmlElement.values()) {
-                if (value.getName().equals(name)) {
-                    return value;
-                }
-            }
-            throw new IllegalArgumentException("Enum of type %s does not exist".formatted(name));
         }
     }
 

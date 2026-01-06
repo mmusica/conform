@@ -1,7 +1,5 @@
 package com.hub.rest.v1;
 
-import org.bson.types.ObjectId;
-
 import com.hub.mongo.dto.FormResponseDto;
 import com.hub.mongo.service.FormResponseService;
 
@@ -15,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import lombok.RequiredArgsConstructor;
 
 @Path("/v1/form-response")
@@ -28,12 +27,12 @@ public class FormResponseEndpoint {
 
     @POST
     public Response createFormResponse(@Valid FormResponseDto formResponseDto) {
-        service.persist(formResponseDto);
-        return Response.ok().build();
+        service.save(formResponseDto);
+        return Response.status(Status.CREATED.getStatusCode()).build();
     }
 
     @GET
-    public Response getFormResponse(@QueryParam("user") String user, @QueryParam("formId") ObjectId formId) {
+    public Response getFormResponse(@QueryParam("user") String user, @QueryParam("formId") String formId) {
         return Response.ok()
                 .entity(service.findUserResponses(user, formId))
                 .build();

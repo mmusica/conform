@@ -3,29 +3,28 @@ services:
     image: mongo:latest
     restart: always
     container_name: mongo_db
-    command: [ "--replSet", "rs0", "--bind_ip_all" ]
+    command: ["--replSet", "rs0", "--bind_ip_all"]
     networks:
       - mongo_network
     ports:
       - 27017:27017
     healthcheck:
-      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - mongo_data:/data/db
 
-  # This "sidecar" container initializes the replica set then exits
-  # mongo-init:
-  #   image: mongo:latest
-  #   networks:
-  #     - mongo_network
-  #   depends_on:
-  #     mongo:
-  #       condition: service_healthy
-  #   entrypoint: >
-  #     mongosh --host mongo:27017 --eval  'rs.initiate({_id:"rs0", members:[{_id:0, host:"mongo:27017"}]})'
+  mongo-init:
+    image: mongo:latest
+    networks:
+      - mongo_network
+    depends_on:
+      mongo:
+        condition: service_healthy
+    entrypoint: >
+      mongosh --host mongo:27017 --eval ' try { rs.status() } catch (e) { rs.initiate({_id:"rs0", members:[{_id:0, host:"mongo:27017"}]}) }'
 
   mongo-express:
     image: mongo-express
@@ -39,9 +38,9 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD:-pass}
     networks:
       - mongo_network
-    # depends_on:
-    #   mongo-init:
-    #     condition: service_completed_successfully
+    depends_on:
+      mongo-init:
+        condition: service_completed_successfully
 
 networks:
   mongo_network:

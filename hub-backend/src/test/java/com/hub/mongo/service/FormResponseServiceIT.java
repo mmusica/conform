@@ -33,14 +33,15 @@ class FormResponseServiceIT {
     @Test
     @TestTransaction
     @DisplayName("FormResponseService - should persist a formResponse and find by user")
-    public void persistAndFind_validItem_shouldPersist() {
+    void persistAndFind_validItem_shouldPersist() {
 
         FormResponseDto formResponseDto = getFormResponseDto();
         FormDto formDto = FormCreator.createValidForm();
 
         when(formService.find(formResponseDto.getFormId())).thenReturn(Optional.of(formDto));
-        formResponseService.persist(formResponseDto);
-        var found = formResponseService.findUserResponses(formResponseDto.getUser(), formResponseDto.getFormId());
+        formResponseService.save(formResponseDto);
+        var found = formResponseService.findUserResponses(formResponseDto.getUser(),
+                formResponseDto.getFormId().toHexString());
 
         assertThat(found).isNotNull().isNotEmpty();
 
@@ -52,10 +53,10 @@ class FormResponseServiceIT {
     @Test
     @TestTransaction
     @DisplayName("FormResponseService - should throw NotFoundException when no form exists")
-    public void persistAndFind_notFoundForm_shouldThrowNotFound() {
+    void persistAndFind_notFoundForm_shouldThrowNotFound() {
         FormResponseDto formResponseDto = getFormResponseDto();
         when(formService.find(formResponseDto.getFormId())).thenReturn(Optional.empty());
-        assertThatThrownBy(() -> formResponseService.persist(formResponseDto)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> formResponseService.save(formResponseDto)).isInstanceOf(NotFoundException.class);
     }
 
     private FormResponseDto getFormResponseDto() {

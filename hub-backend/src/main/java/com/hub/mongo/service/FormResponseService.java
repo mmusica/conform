@@ -22,12 +22,12 @@ public class FormResponseService {
     final FormResponseMapper mapper;
 
     @Transactional
-    public void persist(FormResponseDto formResponseDto) {
-        formService.find(formResponseDto.getFormId()).orElseThrow(NotFoundException::new);
+    public void save(FormResponseDto formResponseDto) {
+        formService.find(formResponseDto.getFormId()).orElseThrow(() -> new NotFoundException());
         repository.persist(mapper.toEntity(formResponseDto));
     }
 
-    public List<FormResponseDto> findUserResponses(String user, ObjectId formId) {
-        return repository.findUserResponses(user, formId);
+    public List<FormResponseDto> findUserResponses(String user, String formId) {
+        return repository.findUserResponses(user, new ObjectId(formId));
     }
 }
