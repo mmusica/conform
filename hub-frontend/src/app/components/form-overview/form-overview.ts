@@ -25,10 +25,10 @@ import { FormRenderer } from '../form-renderer/form-renderer';
 })
 export class FormOverview implements OnInit {
   protected forms = signal(new Array<FormDto>());
-  private formService: FormDataService = inject(FormDataService);
-  private dialog = inject(MatDialog);
-  private clipboard: Clipboard = inject(Clipboard);
-  private snackBar = inject(MatSnackBar);
+  private readonly formService: FormDataService = inject(FormDataService);
+  private readonly dialog = inject(MatDialog);
+  private readonly clipboard: Clipboard = inject(Clipboard);
+  private readonly snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.fetchForms();
