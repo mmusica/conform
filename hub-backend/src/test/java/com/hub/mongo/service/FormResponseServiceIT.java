@@ -1,13 +1,10 @@
 package com.hub.mongo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +16,6 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
 
 @QuarkusTest
 class FormResponseServiceIT {
@@ -38,32 +34,24 @@ class FormResponseServiceIT {
         FormResponseDto formResponseDto = getFormResponseDto();
         FormDto formDto = FormCreator.createValidForm();
 
-        when(formService.find(formResponseDto.getFormId())).thenReturn(Optional.of(formDto));
+        when(formService.findById(formResponseDto.getFormId())).thenReturn(formDto);
         formResponseService.save(formResponseDto);
         var found = formResponseService.findUserResponses(formResponseDto.getUser(),
-                formResponseDto.getFormId().toHexString());
+                formResponseDto.getFormId());
 
-        assertThat(found).isNotNull().isNotEmpty();
-
-        assertThat(found).allSatisfy(it -> assertThat(it.getAnswers())
-                .allSatisfy((k, v) -> assertThat(formResponseDto.getAnswers().get(k)).isEqualTo(v)));
-        assertThat(found).allSatisfy(it -> it.getFormId().equals(formDto.getId()));
-    }
-
-    @Test
-    @TestTransaction
-    @DisplayName("FormResponseService - should throw NotFoundException when no form exists")
-    void persistAndFind_notFoundForm_shouldThrowNotFound() {
-        FormResponseDto formResponseDto = getFormResponseDto();
-        when(formService.find(formResponseDto.getFormId())).thenReturn(Optional.empty());
-        assertThatThrownBy(() -> formResponseService.save(formResponseDto)).isInstanceOf(NotFoundException.class);
+        assertThat(found).isNotNull()
+                .isNotEmpty()
+                .allSatisfy(it -> {
+                    assertThat(it.getFormId()).isEqualTo(formResponseDto.getFormId());
+                    assertThat(it.getAnswers()).containsExactlyEntriesOf(formResponseDto.getAnswers());
+                });
     }
 
     private FormResponseDto getFormResponseDto() {
         FormResponseDto formResponseDto = new FormResponseDto();
         formResponseDto.setUser("user");
         formResponseDto.setAnswers(Map.of("question", "answer"));
-        formResponseDto.setFormId(new ObjectId());
+        formResponseDto.setFormId("69512e7fcb16061d4aff8520");
         return formResponseDto;
     }
 }

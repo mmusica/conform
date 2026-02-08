@@ -3,7 +3,9 @@ package com.hub.mongo.dto;
 import java.time.Instant;
 import java.util.Map;
 
-import org.bson.types.ObjectId;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -19,7 +21,9 @@ import lombok.Data;
 public class FormResponseDto {
 
     @NotNull
-    private ObjectId formId;
+    @BsonProperty("formId")
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String formId;
 
     @NotNull
     @Size(min = 1, max = 50)

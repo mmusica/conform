@@ -3,8 +3,6 @@ package com.hub.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
-
 import com.hub.mongo.dto.FormDto;
 import com.hub.mongo.model.FormComponent;
 import com.hub.mongo.model.FormComponent.HtmlElement;
@@ -15,7 +13,7 @@ public class FormCreator {
         var result = new FormDto();
         result.setUser("user");
         result.setComponents(getComponents());
-        result.setId(new ObjectId());
+        result.setId("112345612345612345623456");
         return result;
     }
 

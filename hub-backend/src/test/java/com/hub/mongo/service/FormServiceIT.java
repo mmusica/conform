@@ -24,7 +24,7 @@ class FormServiceIT {
     @Test
     @TestTransaction
     @DisplayName("FormService - should persist a formDto and find by user")
-    public void persistAndFind_validItem_shouldPersist() {
+    void persistAndFind_validItem_shouldPersist() {
 
         var form = FormCreator.createValidForm();
         formService.save(form);

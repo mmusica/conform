@@ -170,6 +170,7 @@
                     </classPatterns>
                     <outputKind>module</outputKind>
                     <outputFile>../hub-frontend/src/app/models/model.d.ts</outputFile>
+                    <optionalProperties>useSpecifiedAnnotations</optionalProperties>
                 </configuration>
             </plugin>
         </plugins>

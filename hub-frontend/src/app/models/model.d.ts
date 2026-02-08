@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-01-06 14:48:27.
+// Generated using typescript-generator version 3.2.1263 on 2026-01-07 16:20:55.
 
 export interface FormDto {
-    id: ObjectId;
+    id: string;
     name: string;
     user: string;
     modifiedAt: Date;
@@ -11,15 +11,10 @@ export interface FormDto {
 }
 
 export interface FormResponseDto {
-    formId: ObjectId;
+    formId: string;
     user: string;
     submittedAt: Date;
     answers: { [index: string]: any };
-}
-
-export interface ObjectId extends Comparable<ObjectId>, Serializable {
-    timestamp: number;
-    date: Date;
 }
 
 export interface FormComponent {
@@ -27,12 +22,6 @@ export interface FormComponent {
     type: HtmlElement;
     label: string;
     values: string[];
-}
-
-export interface Serializable {
-}
-
-export interface Comparable<T> {
 }
 
 export type HtmlElement = "textarea" | "select" | "radio";

@@ -10,7 +10,6 @@ import com.hub.mongo.repository.FormResponseRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @ApplicationScoped
@@ -23,7 +22,7 @@ public class FormResponseService {
 
     @Transactional
     public void save(FormResponseDto formResponseDto) {
-        formService.find(formResponseDto.getFormId()).orElseThrow(() -> new NotFoundException());
+        formService.findById(formResponseDto.getFormId());
         repository.persist(mapper.toEntity(formResponseDto));
     }
 
