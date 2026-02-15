@@ -1,5 +1,8 @@
 package com.hub.rest.v1;
 
+import io.quarkus.security.Authenticated;
+import lombok.RequiredArgsConstructor;
+
 import com.hub.mongo.dto.FormDto;
 import com.hub.mongo.service.FormService;
 
@@ -15,13 +18,13 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-import lombok.RequiredArgsConstructor;
 
 @Path("/v1/forms")
 @RequiredArgsConstructor
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
+@Authenticated
 public class FormEndpoint {
 
     final FormService service;
