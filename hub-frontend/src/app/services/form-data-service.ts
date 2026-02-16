@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FormDataService {
-  private http: HttpClient = inject(HttpClient);
-  private apiUrl: string = environment.hubBackendApiUrl;
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly apiUrl: string = environment.hubBackendApiUrl;
 
   public getFormsByUsername(user: string): Observable<Array<FormDto>> {
     return this.http.get<Array<FormDto>>(`${this.apiUrl}/v1/forms`, {

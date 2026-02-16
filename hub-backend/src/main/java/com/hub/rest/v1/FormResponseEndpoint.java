@@ -23,7 +23,6 @@ import jakarta.ws.rs.core.Response.Status;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
-@Authenticated
 public class FormResponseEndpoint {
 
     final FormResponseService service;
