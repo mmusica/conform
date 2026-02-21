@@ -91,7 +91,7 @@ services:
       KC_DB_USERNAME: ${KC_POSTGRES_PASSWORD:-admin} 
       KC_DB_PASSWORD: ${KC_POSTGRES_PASSWORD:-admin} 
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/postgres
-    entrypoint: ["/opt/keycloak/bin/keycloak.sh"]
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
 networks:
   hub-network:
