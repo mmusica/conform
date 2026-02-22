@@ -2,7 +2,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -45,10 +45,10 @@ export class FormOverview implements OnInit {
       width: '90vw',
       maxWidth: '90vw',
       data: form,
-    });
+    } as MatDialogConfig<FormDto>);
   }
 
-  generateFormUrl(id: String): void {
+  generateFormUrl(id: string): void {
     this.clipboard.copy(`${environment.selfUrl}/forms/${id}`);
     this.snackBar.open('URL copied!', 'Dismiss', {
       duration: 5000,

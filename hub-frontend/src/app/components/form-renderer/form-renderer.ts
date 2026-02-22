@@ -14,9 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
+import { FormResponse } from '../../models/form-response.model';
 import { FormComponent, FormDto } from '../../models/model';
 import { FormResponseDataService } from '../../services/form-response-data-service';
-import { FormResponse } from '../../models/form-response.model';
 
 interface DynamicForm {
   [key: string]: FormControl<string | null>;
@@ -47,14 +47,16 @@ interface FormSubmitResponse {
   styleUrl: './form-renderer.scss',
 })
 export class FormRenderer {
-  private activatedRoute = inject(ActivatedRoute);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
-  private dialogData: FormDto = inject(MAT_DIALOG_DATA, { optional: true });
-  private routerData = toSignal(this.activatedRoute.data);
+  private readonly dialogData: FormDto = inject(MAT_DIALOG_DATA, {
+    optional: true,
+  });
+  private readonly routerData = toSignal(this.activatedRoute.data);
 
-  private form = signal({} as FormDto);
-  private fb = inject(NonNullableFormBuilder);
-  private formResponseDataService: FormResponseDataService = inject(
+  private readonly form = signal({} as FormDto);
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly formResponseDataService: FormResponseDataService = inject(
     FormResponseDataService,
   );
 

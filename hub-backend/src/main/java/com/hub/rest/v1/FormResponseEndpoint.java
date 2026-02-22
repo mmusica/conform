@@ -1,6 +1,5 @@
 package com.hub.rest.v1;
 
-import io.quarkus.security.Authenticated;
 import lombok.RequiredArgsConstructor;
 
 import com.hub.mongo.dto.FormResponseDto;

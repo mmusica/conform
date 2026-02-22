@@ -4,6 +4,11 @@ import { formResolver } from './resolvers/form-resolver';
 
 export const routes: Routes = [
   {
+    path: "",
+    redirectTo: "forms",
+    pathMatch: "full" 
+  },
+  {
     path: 'forms',
     component: FormOverview,
   },
