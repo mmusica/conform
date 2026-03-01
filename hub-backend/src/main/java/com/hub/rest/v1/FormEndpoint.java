@@ -1,10 +1,11 @@
 package com.hub.rest.v1;
 
 import io.quarkus.security.Authenticated;
+import io.quarkus.security.identity.SecurityIdentity;
 import lombok.RequiredArgsConstructor;
 
-import com.hub.mongo.dto.FormDto;
-import com.hub.mongo.service.FormService;
+import com.hub.form.dto.FormDto;
+import com.hub.form.service.FormService;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.validation.Valid;
@@ -14,7 +15,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -28,6 +28,7 @@ import jakarta.ws.rs.core.Response.Status;
 public class FormEndpoint {
 
     final FormService service;
+    final SecurityIdentity identity;
 
     @POST
     public Response createForm(@Valid FormDto dto) {
@@ -37,15 +38,16 @@ public class FormEndpoint {
     }
 
     @GET
-    public Response getFormByUser(@QueryParam("user") String user) {
+    @Path(value = "/me")
+    public Response getFormByUser() {
         return Response.ok()
-                .entity(service.findUsersForms(user))
+                .entity(service.findUsersForms(identity.getPrincipal().getName()))
                 .build();
     }
 
     @GET
     @Path("/{id}")
-    public Response getFormById(@PathParam("id") String id) {
+    public Response getFormById(@PathParam("id") Integer id) {
         return Response.ok()
                 .entity(service.findById(id))
                 .build();

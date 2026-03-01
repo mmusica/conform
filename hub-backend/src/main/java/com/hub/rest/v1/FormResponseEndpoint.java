@@ -1,9 +1,11 @@
 package com.hub.rest.v1;
 
+import io.quarkus.security.Authenticated;
+import io.quarkus.security.identity.SecurityIdentity;
 import lombok.RequiredArgsConstructor;
 
-import com.hub.mongo.dto.FormResponseDto;
-import com.hub.mongo.service.FormResponseService;
+import com.hub.form.dto.FormResponseDto;
+import com.hub.form.service.FormResponseService;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.validation.Valid;
@@ -18,6 +20,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 @Path("/v1/form-responses")
+@Authenticated
 @RequiredArgsConstructor
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,10 +28,11 @@ import jakarta.ws.rs.core.Response.Status;
 public class FormResponseEndpoint {
 
     final FormResponseService service;
+    final SecurityIdentity identity;
 
     @POST
     public Response createFormResponse(@Valid FormResponseDto formResponseDto) {
-        service.save(formResponseDto);
+        service.save(formResponseDto, identity.getPrincipal().getName());
         return Response.status(Status.CREATED.getStatusCode()).build();
     }
 

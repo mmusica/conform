@@ -1,0 +1,185 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-form-element" author="mmusica">
+        <createTable tableName="form_element">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user" author="mmusica">
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP"></column>
+            <column name="modified_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-form-status" author="mmusica">
+        <createTable tableName="form_status">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-form" author="mmusica">
+        <createTable tableName="form">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="components" type="jsonb">
+                <constraints nullable="false" />
+            </column>
+            <column name="form_status_id" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="modified_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="form"
+            baseColumnNames="user_id"
+            constraintName="fk_form_user_user_id"
+            referencedTableName="user"
+            referencedColumnNames="id" />
+
+        <addForeignKeyConstraint
+            baseTableName="form"
+            baseColumnNames="form_status_id"
+            constraintName="fk_form_form_status_form_status_id"
+            referencedTableName="form_status"
+            referencedColumnNames="id" />
+
+        <createIndex indexName="idx_form_user_id" tableName="form">
+            <column name="user_id" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_status_id" tableName="form">
+            <column name="form_status_id" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_created_at" tableName="form">
+            <column name="created_at" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_user_status" tableName="form">
+            <column name="user_id" />
+            <column name="form_status_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-table-form-response" author="mmusica">
+        <createTable tableName="form_response">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="form_id" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="answers" type="jsonb">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_at" type="timestamp with time zone"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="form_response"
+            baseColumnNames="user_id"
+            constraintName="fk_form_response_user_user_id"
+            referencedTableName="user"
+            referencedColumnNames="id" />
+
+        <addForeignKeyConstraint
+            baseTableName="form_response"
+            baseColumnNames="form_id"
+            constraintName="fk_form_response_form_form_id"
+            referencedTableName="form"
+            referencedColumnNames="id" />
+
+        <createIndex indexName="idx_form_response_user_id" tableName="form_response">
+            <column name="user_id" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_response_form_id" tableName="form_response">
+            <column name="form_id" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_response_created_at" tableName="form_response">
+            <column name="created_at" />
+        </createIndex>
+
+        <createIndex indexName="idx_form_response_user_form" tableName="form_response">
+            <column name="user_id" />
+            <column name="form_id" />
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>

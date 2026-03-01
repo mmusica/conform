@@ -1,33 +1,24 @@
-package com.hub.mongo.dto;
+package com.hub.form.dto;
 
-import java.time.Instant;
-import java.util.List;
-
-import org.bson.BsonType;
-import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
+import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.hub.mongo.model.Form;
-import com.hub.mongo.model.FormComponent;
+import com.hub.form.model.FormComponent;
 
-import io.quarkus.mongodb.panache.common.ProjectionFor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+
+import java.time.Instant;
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ProjectionFor(Form.class)
 public class FormDto {
 
-    @JsonProperty(access = Access.READ_ONLY)
-    @BsonProperty("_id")
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String id;
+    private Integer id;
 
     @NotBlank
     private String name;

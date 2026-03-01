@@ -1,76 +1,17 @@
 services:
-  mongo:
-    image: mongo:latest
-    restart: always
-    container_name: mongo_db
-    command: ["--replSet", "rs0", "--bind_ip_all"]
-    networks:
-      - hub-network
-    ports:
-      - 27017:27017
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - mongo_data:/data/db
-
-  mongo-init:
-    image: mongo:latest
-    networks:
-      - hub-network
-    depends_on:
-      mongo:
-        condition: service_healthy
-    entrypoint: >
-      mongosh --host mongo:27017 --eval ' try { rs.status() } catch (e) { rs.initiate({_id:"rs0", members:[{_id:0, host:"mongo:27017"}]}) }'
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/?replicaSet=rs0
-      ME_CONFIG_BASICAUTH_ENABLED: "true"
-      ME_CONFIG_BASICAUTH_USERNAME: ${ME_USER:-user}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD:-pass}
-    networks:
-      - hub-network
-    depends_on:
-      mongo-init:
-        condition: service_completed_successfully
-
-  keycloak_db:
+  hub_backend_db:
     image: postgres:18.1-alpine3.23
     restart: always
     ports:
-      - 5433:5432
+      - 5432:5432
     volumes:
-     - keycloak_data:/var/lib/postgresql
+     - hub_backend_data:/var/lib/postgresql
     environment:
-      POSTGRES_USER: ${KC_POSTGRES_PASSWORD:-admin} 
-      POSTGRES_PASSWORD: ${KC_POSTGRES_PASSWORD:-admin} 
+      POSTGRES_USER: ${DB_USER:-admin} 
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-admin} 
+      POSTGRES_DB: conform
     networks:
       - hub-network
-
-  # keycloak-export:
-  #   image: quay.io/keycloak/keycloak:26.5
-  #   depends_on:
-  #     - keycloak_db
-  #   volumes:
-  #     - ./exports:/tmp/export
-  #   entrypoint: ["/opt/keycloak/bin/kc.sh", "export", "--dir", "/opt/keycloak/data/export"]
-  #   environment:
-  #     KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USERNAME:-admin}
-  #     KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD:-admin}
-  #     KC_DB: postgres
-  #     KC_DB_USERNAME: ${KC_POSTGRES_PASSWORD:-admin} 
-  #     KC_DB_PASSWORD: ${KC_POSTGRES_PASSWORD:-admin} 
-  #     KC_DB_URL: jdbc:postgresql://keycloak_db:5432/postgres
-  #   networks:
-  #     - hub-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.5
@@ -80,7 +21,7 @@ services:
     ports:
       - 8082:8080
     depends_on:
-      - keycloak_db
+      - hub_backend_db 
     volumes:
       - "./keycloak.sh:/opt/keycloak/bin/keycloak.sh"
       - "./exports:/opt/keycloak/data/export"
@@ -90,12 +31,12 @@ services:
       KC_DB: postgres
       KC_DB_USERNAME: ${KC_POSTGRES_PASSWORD:-admin} 
       KC_DB_PASSWORD: ${KC_POSTGRES_PASSWORD:-admin} 
-      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/postgres
+      KC_DB_URL: jdbc:postgresql://hub_backend_db:5432/postgres
     entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
 networks:
   hub-network:
 
 volumes:
-  mongo_data:
-  keycloak_data:
+  hub_backend_data:
+
