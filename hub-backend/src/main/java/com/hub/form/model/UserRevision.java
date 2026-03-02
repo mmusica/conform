@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionMapping;
 
@@ -18,4 +20,7 @@ public class UserRevision extends RevisionMapping {
 
     private Integer ppId;
     private String username;
+
+    // @ManyToAny(fetch = FetchType.LAZY)
+    // private User user;
 }

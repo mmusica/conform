@@ -23,8 +23,6 @@ public class FormDto {
     @NotBlank
     private String name;
 
-    @NotNull
-    @Size(min = 1, max = 50)
     private String user;
 
     @JsonProperty(access = Access.READ_ONLY)
