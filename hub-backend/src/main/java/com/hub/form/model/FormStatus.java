@@ -16,11 +16,13 @@ import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "form_status")
+@Audited(withModifiedFlag = true)
 public class FormStatus {
 
     @Id

@@ -23,12 +23,15 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "form")
+@Audited(withModifiedFlag = true)
 public class Form {
 
     @Id
@@ -40,6 +43,7 @@ public class Form {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotAudited
     private User user;
 
     @Column(name = "version", nullable = false)
@@ -53,6 +57,7 @@ public class Form {
     private FormStatus formStatus;
 
     @OneToMany(mappedBy = FormResponse_.FORM)
+    @NotAudited
     private Set<FormResponse> responses;
 
     @Column(name = "created_at", nullable = false)
