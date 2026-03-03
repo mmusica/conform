@@ -4,9 +4,8 @@ import io.quarkus.security.identity.SecurityIdentity;
 import lombok.NoArgsConstructor;
 
 import jakarta.enterprise.inject.spi.CDI;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.envers.RevisionListener;
@@ -17,12 +16,25 @@ public class UserRevisionEntityListener implements RevisionListener {
     @Override
     public void newRevision(Object revisionEntity) {
         Session session = CDI.current().select(Session.class).get();
-        var userByDb = session.find(UserRevision.class, 1);
-        Logger.getGlobal().log(Level.INFO, userByDb.getUsername());
-        UserRevision user = (UserRevision) revisionEntity;
+        var sessionUsername = CDI.current().select(SecurityIdentity.class).get().getPrincipal().getName();
+
+        var builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+        Root<User> root = query.from(User.class);
+        query.select(root);
+        query.where(builder.equal(root.get(User_.USERNAME), sessionUsername));
+        User dbUser = session.createQuery(query).getSingleResultOrNull();
+
+        UserRevision ur = (UserRevision) revisionEntity;
+        ur.setUser(dbUser);
+        ur.setPpId(1);
+
+
+
+        // UserRevision user = (UserRevision) revisionEntity;
         // user.setUsername(CDI.current().select(SecurityIdentity.class).get().getPrincipal().getName());
-        user.setUsername(userByDb.getUsername());
-        user.setPpId(1);
+        // user.setUsername(userByDb.getUsername());
+        // user.setPpId(1);
     }
 
 }

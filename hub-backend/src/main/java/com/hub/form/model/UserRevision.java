@@ -3,11 +3,13 @@ package com.hub.form.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionMapping;
 
@@ -18,9 +20,10 @@ import org.hibernate.envers.RevisionMapping;
 @RevisionEntity(UserRevisionEntityListener.class)
 public class UserRevision extends RevisionMapping {
 
-    private Integer ppId;
-    private String username;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // @ManyToAny(fetch = FetchType.LAZY)
-    // private User user;
+    @Column(name = "pp_id")
+    private Integer ppId;
 }
