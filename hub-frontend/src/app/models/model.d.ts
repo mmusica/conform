@@ -1,27 +1,31 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-02-08 18:21:34.
+// Generated using typescript-generator version 3.2.1263 on 2026-03-14 11:46:40.
 
 export interface FormDto {
-    id: string;
+    id: number;
     name: string;
     user: string;
     modifiedAt: Date;
     components: FormComponent[];
 }
 
-export interface FormResponseDto {
-    formId: string;
-    user: string;
-    submittedAt: Date;
-    answers: { [index: string]: any };
+export interface FormElementDto {
+    name: string;
 }
 
-export interface FormComponent {
-    name: string;
-    type: HtmlElement;
+export interface FormResponseDto {
+    formId: number;
+    user: string;
+    submittedAt: Date;
+    answers: { [index: string]: string };
+}
+
+export interface FormComponent extends Serializable {
     label: string;
+    element: string;
     values: string[];
 }
 
-export type HtmlElement = "textarea" | "select" | "radio";
+export interface Serializable {
+}

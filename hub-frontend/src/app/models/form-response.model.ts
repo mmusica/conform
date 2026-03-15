@@ -2,12 +2,12 @@ import { FormResponseDto } from './model';
 
 export class FormResponse {
   userFormResponse: { [key: string]: string };
-  formId: string;
+  formId: number;
   user: string;
 
   constructor(data: Partial<FormResponse>) {
     this.userFormResponse = data.userFormResponse || {};
-    this.formId = data.formId || '';
+    this.formId = data.formId || 0;
     this.user = data.user || '';
   }
 

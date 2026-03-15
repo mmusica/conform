@@ -1,10 +1,10 @@
 <form [formGroup]="formPreview" (ngSubmit)="onSubmit()">
   <div formGroupName="components">
-    @for (c of formComponents; track c.name) {
+    @for (c of formComponents; track c.label) {
       <mat-form-field>
         <mat-label>{{ c.label + ":" }}</mat-label>
-        @if (c.type === "select") {
-          <mat-select id="c.name" [formControlName]="c.name">
+        @if (c.element === "select") {
+          <mat-select id="c.name" [formControlName]="c.label">
             @for (v of c.values; track v) {
               <mat-option [value]="v">{{ v }}</mat-option>
             }
@@ -12,13 +12,13 @@
         } @else {
           <input
             matInput
-            [id]="c.name"
-            [type]="c.type"
-            [formControlName]="c.name"
+            [id]="c.label"
+            [type]="c.element"
+            [formControlName]="c.label"
           />
         }
-        @if (getValidationErrorMessage(c.name)) {
-          <mat-error>{{ getValidationErrorMessage(c.name) }}</mat-error>
+        @if (getValidationErrorMessage(c.label)) {
+          <mat-error>{{ getValidationErrorMessage(c.label) }}</mat-error>
         }
       </mat-form-field>
       <br />

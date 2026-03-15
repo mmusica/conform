@@ -7,8 +7,8 @@ import { FormResponse } from '../models/form-response.model';
   providedIn: 'root',
 })
 export class FormResponseDataService {
-  private http: HttpClient = inject(HttpClient);
-  private apiUrl: string = environment.hubBackendApiUrl;
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly apiUrl: string = environment.hubBackendApiUrl;
 
   public createFormResponse(userFormResponse: FormResponse) {
     return this.http.post(

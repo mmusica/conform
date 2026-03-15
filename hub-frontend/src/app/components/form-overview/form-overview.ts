@@ -36,7 +36,7 @@ export class FormOverview implements OnInit {
 
   fetchForms() {
     this.formService
-      .getFormsByUsername('string')
+      .getMyForms()
       .subscribe((it) => this.forms.set(it));
   }
 
@@ -48,7 +48,7 @@ export class FormOverview implements OnInit {
     } as MatDialogConfig<FormDto>);
   }
 
-  generateFormUrl(id: string): void {
+  generateFormUrl(id: number): void {
     this.clipboard.copy(`${environment.selfUrl}/forms/${id}`);
     this.snackBar.open('URL copied!', 'Dismiss', {
       duration: 5000,

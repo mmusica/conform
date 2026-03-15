@@ -3,9 +3,9 @@ package com.hub.form.service;
 import lombok.RequiredArgsConstructor;
 
 import com.hub.form.dto.FormDto;
+import com.hub.form.dto.FormElementDto;
 import com.hub.form.mapper.FormMapper;
 import com.hub.form.model.Form;
-import com.hub.form.repository.FormQueries;
 import com.hub.form.repository.FormQueries_;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -46,5 +46,12 @@ public class FormService {
         return Optional.ofNullable(session.find(Form.class, id))
                 .map(mapper::toDto)
                 .orElse(null);
+    }
+
+    public List<FormElementDto> getFormElements() {
+        return new FormQueries_(session).findAllElements()
+                .stream()
+                .map(it -> new FormElementDto(it.getName()))
+                .toList();
     }
 }

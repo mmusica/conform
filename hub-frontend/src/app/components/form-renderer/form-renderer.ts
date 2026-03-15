@@ -27,7 +27,7 @@ interface Form {
 }
 
 interface FormSubmitResponse {
-  formId: string;
+  formId: number;
   user: string;
   userFormResponse: { [key: string]: any };
 }
@@ -102,7 +102,7 @@ export class FormRenderer {
   renderFormAsObject(form: FormDto) {
     let result: DynamicForm = {};
     form.components?.forEach((it) => {
-      result[it.name] = new FormControl('', Validators.required);
+      result[it.label] = new FormControl('', Validators.required);
     });
     return result;
   }

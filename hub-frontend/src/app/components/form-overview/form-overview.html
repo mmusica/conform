@@ -8,12 +8,10 @@
           <li>Name: {{ form.name }}</li>
           <li>CreatedAt: {{ form.modifiedAt }}</li>
           <li>Components:</li>
-          @for (component of form.components; track component.name) {
+          @for (component of form.components; track component.label) {
             <ol>
-              <li>{{ component.name }}</li>
-              <li>{{ component.label }}</li>
-              <li>{{ component.name }}</li>
-              <li>{{ component.type }}</li>
+              <li>{{ component.label}}</li>
+              <li>{{ component.element}}</li>
             </ol>
           }
         </ul>
